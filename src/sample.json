@@ -1,0 +1,18 @@
+[
+    {
+        "id":"1",
+        "name":"Francisco Javier",
+        "surnames":"Rico Perez",
+        "dni":"48832813H",
+        "email":"franciscojricop@gmail.com",
+        "password":"hola1234"
+    },
+    {
+        "id":"2",
+        "name":"Jose Enrique",
+        "surnames":"Rico Perez",
+        "dni":"48832812H",
+        "email":"jose@gmail.com",
+        "password":"hola1234"
+    }
+]
