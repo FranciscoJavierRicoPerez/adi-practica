@@ -3,11 +3,14 @@ var router = express.Router();
 
 var underscore = require('underscore'); // PARA PODER RECORRER COLECCIONES underscore.each(...)
 
-var videojuegos = require('../videojuegos_sample.json'); // Obtiene un array con todos los videojuegos que tengo definidios en mi videojuegos.json y los que añada posteriormente
+var database_videojuegos = require('../database/videojuegos_db');
+
+//var videojuegos = require('../videojuegos_sample.json'); // Obtiene un array con todos los videojuegos que tengo definidios en mi videojuegos.json y los que añada posteriormente
 
 
 //Muestra todos los videojuegos que tenemos en nuestra base de datos
-router.get('/', function(req, res){
+router.get('/', async function(req, res){
+    var videojuegos = await database_videojuegos.getAllVideojuegosEnBBDD();
     if(videojuegos.length > 0){
         //console.log(videojuegos);
         res.status(200).json(videojuegos);
@@ -18,29 +21,25 @@ router.get('/', function(req, res){
 });
 
 // Muestra el videojuego con el id pasado como parametro
-router.get('/:id', function(req, res){
+router.get('/:id', async function(req, res){
     var id = req.params.id; // Obtengo de los parametros de la ruta el id
-    var encontrado = false;
-    underscore.each(videojuegos, function(videojuego, i){
-        if(videojuego.id == id){
-            encontrado = true;
-            //console.log(videojuego);
-            res.status(200).json(videojuego);
-        }
-    });
-    if(!encontrado){
-        res.status(500).json({error : "El id solicitado no se ha encontrado"});
+    var videojuego = await database_videojuegos.getVideojuegoEnBBDD(id);
+    if(videojuego.length > 0){
+        res.status(200).json(videojuego);
+    }
+    else{
+        res.status(500).json({error : "El videojuego solicitado no se ha encontrado"});
     }
 });
 
 // Añade un nuevo videojuego a la base de datos
-router.post('/', function(req, res){
+router.post('/', async function(req, res){
     const { name, genre, developers, pegi, platform } = req.body;
     if(name && genre && developers && pegi && platform){
-        var id = videojuegos.length + 1;
-        var nuevo_videojuego = {...req.body, id};
-        videojuegos.push(nuevo_videojuego);
-        res.status(200).json(videojuegos);
+        //var id = videojuegos.length + 1;
+        var nuevo_videojuego = {...req.body};
+        database_videojuegos.insertarVideojuegoEnBBDD(nuevo_videojuego);
+        res.status(200).json(await database_videojuegos.getAllVideojuegosEnBBDD());
     }
     else{
         res.status(500).json({error : "Algun campo es incorrecto"});
