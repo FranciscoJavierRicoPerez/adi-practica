@@ -6,15 +6,17 @@ var database_usuarios = require('../database/usuarios_db');
 
 var underscore = require('underscore'); // PARA RECORRER COLECCIONES
 
-var usuarios = require('../usuarios_sample.json');
 
+/**
+ * HACER LAS COSAS CON LOS DATOS DE LA BASE (database_usuarios) DE DATO EN VEZ DE LOS DE LOCAL
+ */
 
 // Rutas de los usuarios => localhost:8000/usuarios/...
 
 // Muesta a todos los USUARIOS que tenemos en nuestra sistema de almacenamiento de datos
-router.get('/', function(req, res){
+router.get('/', async function(req, res){
+    var usuarios = await database_usuarios.getAllUsuarios();
     if(usuarios.length > 0){
-        //console.log(videojuegos);
         res.status(200).json(usuarios);
     }
     else{
@@ -23,14 +25,14 @@ router.get('/', function(req, res){
 });
 
 // Creación de un usuario nuevo
-router.post('/', function(req, res){
-    const { name, surnames, dni, email, password } = req.body;
+router.post('/', async function(req, res){
+    const {name, surnames, dni, email, password } = req.body;
     if(name && surnames && dni && email && password){
-        var id = usuarios.length + 1;
-        var nuevo_usuario = {...req.body, id}; // Esta pasando todos los datos a la vez (name, password etc...)
+        //var id = usuarios.length + 1;
+        var nuevo_usuario = {...req.body}; // Esta pasando todos los datos a la vez (name, password etc...)
         console.log(nuevo_usuario);
-        usuarios.push(nuevo_usuario);
-        res.status(200).json(usuarios);
+        database_usuarios.insertarUsuarioEnBBDD(nuevo_usuario);
+        res.json( await database_usuarios.getAllUsuarios());
     }
     else{
         res.status(500).json({error: 'Ha habido un error'});
@@ -38,20 +40,21 @@ router.post('/', function(req, res){
 });
 
 // Modificación del usuario que tenga el id pasado como parametro 
-router.put('/:id', function(req, res){
+router.put('/:id', async function(req, res){
     var id = req.params.id;
     const { name, surnames, dni, email, password } = req.body;
     if(name && surnames && dni && email && password){
-        underscore.each(usuarios, function(usuario, i){
+        underscore.each(await database_usuarios.getAllUsuarios(id), function(usuario, i){
             if(usuario.id == id){
                 usuario.name = name;
                 usuario.surnames = surnames;
                 usuario.dni = dni;
                 usuario.email = email;
                 usuario.password = password;
+                database_usuarios.actualizarUsuarioEnBBDD(usuario);
             }
         });
-        res.json(usuarios);
+        res.status(200).json(await database_usuarios.getUsuario(id));
     }
     else{
         res.status(500).json({error: 'Ha habido un error'});
@@ -59,20 +62,33 @@ router.put('/:id', function(req, res){
 });
 
 // Borrado del usuario que tenga el id pasado como parametro
-router.delete('/:id', function(req, res){
+router.delete('/:id', async function(req, res){
     var id = req.params.id;
-    underscore.each(usuarios, function(usuario, i){
+    var borrado = false;
+    var usuarios = await database_usuarios.getAllUsuarios();
+    underscore.each(usuarios, async function(usuario, i){
         if(usuario.id == id){
-            usuarios.splice(i, 1); // usuarios.splice(i, 1) donde i => es la posición donde esta y el 1 es la cantidad de elementos que quiero eliminar
+            //usuarios.splice(i, 1); // usuarios.splice(i, 1) donde i => es la posición donde esta y el 1 es la cantidad de elementos que quiero eliminar
+            database_usuarios.borrarUsuarioEnBDD(id);
+            borrado = true;
+            usuarios = await database_usuarios.getAllUsuarios();
+            res.status(200).json(usuarios);
         }
     });
-    res.send(usuarios);
+    if(!borrado){
+        res.status(500).json({ error : 'No se ha podido borrar el usuario'})
+    }
 })
 
-
+// Obtener el usuario que tiene el ID que se ha pasado como parametro
 router.get('/:id', async function(req, res){
     var usuario = await database_usuarios.getUsuario(req.params.id);
-    res.send(usuario[0]);
+    if(usuario.length > 0){
+        res.status(200).json(usuario[0]);
+    }
+    else{
+        res.status(500).json({error : "No se ha encontrado al usuario"});
+    }
 });
 
 module.exports = router;
