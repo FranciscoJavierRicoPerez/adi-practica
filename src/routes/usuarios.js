@@ -2,6 +2,8 @@
 var express = require('express');
 var router = express.Router();
 
+var database_usuarios = require('../database/usuarios_db');
+
 var underscore = require('underscore'); // PARA RECORRER COLECCIONES
 
 var usuarios = require('../usuarios_sample.json');
@@ -66,5 +68,11 @@ router.delete('/:id', function(req, res){
     });
     res.send(usuarios);
 })
+
+
+router.get('/:id', async function(req, res){
+    var usuario = await database_usuarios.getUsuario(req.params.id);
+    res.send(usuario[0]);
+});
 
 module.exports = router;

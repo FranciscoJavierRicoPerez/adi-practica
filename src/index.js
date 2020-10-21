@@ -16,6 +16,6 @@ app.use('/usuarios', usuariosApp); // Defino el princio de la ruta que van a ten
 var videojuegosApp = require('./routes/videojuegos');
 app.use('/videojuegos', videojuegosApp);
 
-app.listen(3000, function(){
-    console.log('El servidor esta en el puerto 3000');
+app.listen(9999, function(){
+    console.log('El servidor esta en el puerto 9999');
 });
