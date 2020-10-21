@@ -10,8 +10,11 @@ app.use(express.json());
 var principalApp = require('./routes/index');
 app.use('/', principalApp);
 
-var usuariosApp = require('./routes/usuarios');
-app.use('/usuarios', usuariosApp);
+var usuariosApp = require('./routes/usuarios'); // Obtengo en la variable usuariosApp todos los metodos de las rutas definidas en el fichero usuarios.js en la carpeta routes
+app.use('/usuarios', usuariosApp); // Defino el princio de la ruta que van a tener los metodos del archivo usuarios.js
+
+var videojuegosApp = require('./routes/videojuegos');
+app.use('/videojuegos', videojuegosApp);
 
 app.listen(3000, function(){
     console.log('El servidor esta en el puerto 3000');

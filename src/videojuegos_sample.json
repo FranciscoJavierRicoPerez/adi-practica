@@ -1,0 +1,26 @@
+[
+    {
+        "id":"1",
+        "name":"Dark Souls",
+        "genre":"RPG",
+        "developers":"FromSoftware",
+        "pegi":"18",
+        "platform":"PlayStation 4"
+    },
+    {
+        "id":"2",
+        "name":"Dark Souls 2",
+        "genre":"RPG",
+        "developers":"FromSoftware",
+        "pegi":"18",
+        "platform":"PlayStation 4"
+    },
+    {
+        "id":"3",
+        "name":"Dark Souls 3",
+        "genre":"RPG",
+        "developers":"FromSoftware",
+        "pegi":"18",
+        "platform":"PlayStation 4"
+    }
+]
