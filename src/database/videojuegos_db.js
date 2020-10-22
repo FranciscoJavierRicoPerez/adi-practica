@@ -38,8 +38,3 @@ module.exports = {
     insertarVideojuegoEnBBDD
 }
 
-// Select: Devuelve todos los usuarios de la base de datos
-/*var getAllUsuarios = function(){
-    var usuarios = knex.select().from('usuarios');
-    return usuarios.then( function(usuarios){ return usuarios} );
-}*/

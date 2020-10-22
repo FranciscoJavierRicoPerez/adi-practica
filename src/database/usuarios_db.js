@@ -54,10 +54,17 @@ var borrarUsuarioEnBDD = function(id){
     return usuario.then(function(usuario){ return usuario });
 }
 
+
+var getUsuarioByEmailAndPassword = function(email, password){
+    var usuario = knex('usuarios').where('email', email).where('password', password);
+    return usuario.then(function(usuario){ return usuario});
+}
+
 module.exports = {
     getUsuario,
     getAllUsuarios,
     insertarUsuarioEnBBDD,
     actualizarUsuarioEnBBDD,
-    borrarUsuarioEnBDD
+    borrarUsuarioEnBDD,
+    getUsuarioByEmailAndPassword
 }

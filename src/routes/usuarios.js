@@ -4,7 +4,13 @@ var router = express.Router();
 
 var database_usuarios = require('../database/usuarios_db');
 
+var auth = require('./auth');
+
 var underscore = require('underscore'); // PARA RECORRER COLECCIONES
+
+var jwt = require('jwt-simple');
+
+secret = "123456";
 
 
 /**
@@ -24,7 +30,7 @@ router.get('/', async function(req, res){
     }
 });
 
-// Creación de un usuario nuevo
+// Creación de un usuario nuevo (Registrar)
 router.post('/', async function(req, res){
     const {name, surnames, dni, email, password } = req.body;
     if(name && surnames && dni && email && password){
@@ -81,7 +87,7 @@ router.delete('/:id', async function(req, res){
 })
 
 // Obtener el usuario que tiene el ID que se ha pasado como parametro
-router.get('/:id', async function(req, res){
+router.get('/:id', chequeaJWT, async function(req, res){
     var usuario = await database_usuarios.getUsuario(req.params.id);
     if(usuario.length > 0){
         res.status(200).json(usuario[0]);
@@ -90,5 +96,22 @@ router.get('/:id', async function(req, res){
         res.status(500).json({error : "No se ha encontrado al usuario"});
     }
 });
+
+function chequeaJWT(req, res, next){
+    var tokenOk = false;
+    var cabecera = req.header('Authorization');
+    var campos = cabecera.split(' ');
+    console.log(campos)
+    if(campos.length > 1 && cabecera.startsWith('Bearer')){
+        var token = campos[1];
+        tokenOk = jwt.decode(token, secret)
+    }
+    if(tokenOk){
+        next();
+    }
+    else{
+        res.status(403).send({ mensaje : "No tienes permisos" });
+    }
+}
 
 module.exports = router;
