@@ -36,9 +36,10 @@ router.post('/', async function(req, res){
     if(name && surnames && dni && email && password){
         //var id = usuarios.length + 1;
         var nuevo_usuario = {...req.body}; // Esta pasando todos los datos a la vez (name, password etc...)
-        console.log(nuevo_usuario);
-        database_usuarios.insertarUsuarioEnBBDD(nuevo_usuario);
-        res.json( await database_usuarios.getAllUsuarios());
+        //console.log(nuevo_usuario);
+        var id = await database_usuarios.insertarUsuarioEnBBDD(nuevo_usuario);
+        console.log(id);
+        res.send(id);
     }
     else{
         res.status(500).json({error: 'Ha habido un error'});
@@ -79,8 +80,7 @@ router.delete('/:dni', async function(req, res){
             //console.log('usuario');
             database_usuarios.borrarUsuarioEnBBDD(dni);
             borrado = true;
-            usuarios = await database_usuarios.getAllUsuarios();
-            res.status(200).json(usuarios);
+            res.status(200).json({ mensaje : 'Borrado'});
         }
     });
     if(!borrado){

@@ -25,6 +25,8 @@
 					"script": {
 						"id": "6ea54426-63be-4235-92f2-a4a75996d220",
 						"exec": [
+							"var dni = _.random(00000000, 9999999) + \"T\";",
+							"pm.environment.set(\"random_dni\", dni);",
 							"pm.sendRequest({",
 							"    url: 'http://localhost:9999/usuarios/',",
 							"    method: 'POST',",
@@ -34,17 +36,20 @@
 							"    body: {",
 							"        mode: 'raw',",
 							"        raw: JSON.stringify({",
-							"                'name': 'Usuario Prueba',",
-							"                'surnames' : 'Prueba TEST',",
-							"                'dni' : '12345678P',",
-							"                'email' : \"prueba@gmail.com\",",
-							"                'password' : \"1234\"",
+							"                'name': 'Francisco Javier',",
+							"                'surnames' : 'Rico Pérez',",
+							"                'dni' : pm.environment.get(\"random_dni\"),",
+							"                'email' : 'francisco@gmail.com',",
+							"                'password' : '1234'",
 							"        })",
 							"    }",
 							"}, function (err, res) {",
 							"    let resBody = new Buffer.from(res.stream).toString()",
+							"    //console.log(JSON.parse(res))",
 							"    j = JSON.parse(resBody)",
 							"    console.log(j);",
+							"    //console.log(id)",
+							"    pm.environment.set(\"id_usuario_buscado\", j);",
 							"}); "
 						],
 						"type": "text/javascript"
@@ -179,6 +184,8 @@
 					"script": {
 						"id": "66a48f39-a815-45d2-bcc5-7348da821b2e",
 						"exec": [
+							"var dni = _.random(00000000, 9999999) + \"T\";",
+							"pm.environment.set(\"random_dni\", dni);",
 							"pm.sendRequest({",
 							"    url: 'http://localhost:9999/usuarios/',",
 							"    method: 'POST',",
@@ -190,9 +197,9 @@
 							"        raw: JSON.stringify({",
 							"                'name': 'Francisco Javier',",
 							"                'surnames' : 'Rico Pérez',",
-							"                'dni' : '48832813H',",
-							"                'email' : \"francisco@gmail.com\",",
-							"                'password' : \"1234\"",
+							"                'dni' : pm.environment.get(\"random_dni\"),",
+							"                'email' : 'francisco@gmail.com',",
+							"                'password' : '1234'",
 							"        })",
 							"    }",
 							"}, function (err, res) {",
@@ -201,7 +208,7 @@
 							"    j = JSON.parse(resBody)",
 							"    console.log(j);",
 							"    //console.log(id)",
-							"    //pm.environment.set(\"film_id\", id);",
+							"    pm.environment.set(\"id_usuario_buscado\", j);",
 							"}); "
 						],
 						"type": "text/javascript"
@@ -255,7 +262,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\" : \"Juego Nuevo\",\n    \"genre\" : \"RPG\",\n    \"pegi\" : \"12\",\n    \"platform\" : \"PlayStation 4\",\n    \"developers\" : \"Square Enix\"\n}",
+					"raw": "{\n    \"name\" : \"Juego Nuevo\",\n    \"genre\" : \"RPG\",\n    \"pegi\" : \"18\",\n    \"platform\" : \"PlayStation 4\",\n    \"developers\" : \"Square Enix\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -288,6 +295,18 @@
 						],
 						"type": "text/javascript"
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0b4ca14e-f5fc-4b16-b69f-5201fdaa35b7",
+						"exec": [
+							"var dni = _.random(00000000, 9999999) + \"T\";",
+							"pm.environment.set(\"random_dni\", dni);",
+							""
+						],
+						"type": "text/javascript"
+					}
 				}
 			],
 			"request": {
@@ -295,7 +314,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\" : \"Creacion de usuario prueba\",\n    \"surnames\" : \"Prueba prueba\",\n    \"dni\" : \"98762345T\",\n    \"email\" : \"pruebatest@gmail.com\",\n    \"password\" : \"1234\"\n}",
+					"raw": "{\n    \"name\" : \"Creacion de usuario prueba\",\n    \"surnames\" : \"Prueba prueba\",\n    \"dni\" : \"{{random_dni}}\",\n    \"email\" : \"pruebatest@gmail.com\",\n    \"password\" : \"1234\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -309,6 +328,87 @@
 					],
 					"path": [
 						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hacer Login con un usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a46ef507-5d75-494a-93f9-ee60018c43fd",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "27879647-ed46-40a4-a76a-8a1d4594b54e",
+						"exec": [
+							"var dni = _.random(00000000, 9999999) + \"T\";",
+							"pm.environment.set(\"random_dni\", dni);",
+							"var email = \"email_random\" + _.random(1, 589476587) + \"@email.com\"",
+							"pm.environment.set(\"random_email\", email );",
+							"",
+							"pm.sendRequest({",
+							"    url: 'http://localhost:9999/usuarios/',",
+							"    method: 'POST',",
+							"     header: {",
+							"        'content-type': 'application/json'",
+							"    },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: JSON.stringify({",
+							"                'name': 'Francisco Javier',",
+							"                'surnames' : 'Rico Pérez',",
+							"                'dni' : pm.environment.get(\"random_dni\"),",
+							"                'email' : pm.environment.get(\"random_email\"),",
+							"                'password' : '1234'",
+							"        })",
+							"    }",
+							"}, function (err, res) {",
+							"    let resBody = new Buffer.from(res.stream).toString()",
+							"    //console.log(JSON.parse(res))",
+							"    j = JSON.parse(resBody)",
+							"    console.log(j);",
+							"    //console.log(id)",
+							"    pm.environment.set(\"id_usuario_buscado\", j);",
+							"}); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\" : \"{{random_email}}\",\n    \"password\" : \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login"
 					]
 				}
 			},
@@ -385,6 +485,11 @@
 					"script": {
 						"id": "e67424a5-75c6-4d8f-a42c-272acf787723",
 						"exec": [
+							"var dni = _.random(00000000, 9999999) + \"T\";",
+							"pm.environment.set(\"random_dni\", dni);",
+							"var email = \"email_random\" + _.random(1, 589476587) + \"@email.com\"",
+							"pm.environment.set(\"random_email\", email );",
+							"",
 							"pm.sendRequest({",
 							"    url: 'http://localhost:9999/usuarios/',",
 							"    method: 'POST',",
@@ -396,18 +501,13 @@
 							"        raw: JSON.stringify({",
 							"                'name': 'Francisco Javier',",
 							"                'surnames' : 'Rico Pérez',",
-							"                'dni' : '48832813H',",
-							"                'email' : \"francisco@gmail.com\",",
-							"                'password' : \"1234\"",
+							"                'dni' : pm.environment.get(\"random_dni\"),",
+							"                'email' : pm.environment.get(\"random_email\"),",
+							"                'password' : '1234'",
 							"        })",
 							"    }",
 							"}, function (err, res) {",
-							"    let resBody = new Buffer.from(res.stream).toString()",
-							"    //console.log(JSON.parse(res))",
-							"    j = JSON.parse(resBody)",
-							"    console.log(j);",
-							"    //console.log(id)",
-							"    //pm.environment.set(\"film_id\", id);",
+							"    ",
 							"}); "
 						],
 						"type": "text/javascript"
@@ -422,89 +522,13 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{base_url}}/usuarios/{{dni_usuario}}",
+					"raw": "{{base_url}}/usuarios/{{random_dni}}",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"usuarios",
-						"{{dni_usuario}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Hacer Login con un usuario",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "a46ef507-5d75-494a-93f9-ee60018c43fd",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "27879647-ed46-40a4-a76a-8a1d4594b54e",
-						"exec": [
-							"pm.sendRequest({",
-							"    url: 'http://localhost:9999/usuarios/',",
-							"    method: 'POST',",
-							"     header: {",
-							"        'content-type': 'application/json'",
-							"    },",
-							"    body: {",
-							"        mode: 'raw',",
-							"        raw: JSON.stringify({",
-							"                'name': 'Francisco Javier',",
-							"                'surnames' : 'Rico Pérez',",
-							"                'dni' : '48832813H',",
-							"                'email' : \"francisco@gmail.com\",",
-							"                'password' : \"1234\"",
-							"        })",
-							"    }",
-							"}, function (err, res) {",
-							"    let resBody = new Buffer.from(res.stream).toString()",
-							"    //console.log(JSON.parse(res))",
-							"    j = JSON.parse(resBody)",
-							"    console.log(j);",
-							"    //console.log(id)",
-							"    //pm.environment.set(\"film_id\", id);",
-							"}); "
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"email\" : \"francisco@gmail.com\",\n    \"password\" : \"1234\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base_url}}/login",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"login"
+						"{{random_dni}}"
 					]
 				}
 			},

@@ -21,15 +21,13 @@ var getUsuario = function(id){
 var insertarUsuarioEnBBDD = function(nuevo_usuario){ // la funcion recibira los parametros de los usuarios 
     // crear el nuevo usuario
     var usuario = knex('usuarios').insert(
-        [
-            {
-                name : nuevo_usuario.name,
-                surnames : nuevo_usuario.surnames,
-                dni : nuevo_usuario.dni,
-                email : nuevo_usuario.email,
-                password : nuevo_usuario.password
-            }
-        ]    
+        {
+            name : nuevo_usuario.name,
+            surnames : nuevo_usuario.surnames,
+            dni : nuevo_usuario.dni,
+            email : nuevo_usuario.email,
+            password : nuevo_usuario.password
+        }   
     );
     return usuario.then(function(usuario){ return usuario })
 }
