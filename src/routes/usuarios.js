@@ -52,6 +52,7 @@ router.put('/:id', async function(req, res){
     if(name && surnames && dni && email && password){
         underscore.each(await database_usuarios.getAllUsuarios(id), function(usuario, i){
             if(usuario.id == id){
+                console.log(usuario);
                 usuario.name = name;
                 usuario.surnames = surnames;
                 usuario.dni = dni;
@@ -68,14 +69,15 @@ router.put('/:id', async function(req, res){
 });
 
 // Borrado del usuario que tenga el id pasado como parametro
-router.delete('/:id', async function(req, res){
-    var id = req.params.id;
+router.delete('/:dni', async function(req, res){
+    var dni = req.params.dni;
     var borrado = false;
     var usuarios = await database_usuarios.getAllUsuarios();
     underscore.each(usuarios, async function(usuario, i){
-        if(usuario.id == id){
+        if(usuario.dni == dni){
             //usuarios.splice(i, 1); // usuarios.splice(i, 1) donde i => es la posición donde esta y el 1 es la cantidad de elementos que quiero eliminar
-            database_usuarios.borrarUsuarioEnBDD(id);
+            //console.log('usuario');
+            database_usuarios.borrarUsuarioEnBBDD(dni);
             borrado = true;
             usuarios = await database_usuarios.getAllUsuarios();
             res.status(200).json(usuarios);

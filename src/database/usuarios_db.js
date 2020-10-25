@@ -44,13 +44,13 @@ var actualizarUsuarioEnBBDD = function(usuario){
         dni : usuario.dni,
         email : usuario.email,
         password : usuario.password
-    });
+    }).where('id', usuario.id);
     return usuario.then(function(usuario){ return usuario})
 }
 
 //Delete: Borrar un usuario de la base de datos
-var borrarUsuarioEnBDD = function(id){
-    var usuario = knex('usuarios').delete().where('id', id);
+var borrarUsuarioEnBBDD = function(dni){
+    var usuario = knex('usuarios').delete().where('dni', dni);
     return usuario.then(function(usuario){ return usuario });
 }
 
@@ -65,6 +65,6 @@ module.exports = {
     getAllUsuarios,
     insertarUsuarioEnBBDD,
     actualizarUsuarioEnBBDD,
-    borrarUsuarioEnBDD,
+    borrarUsuarioEnBBDD,
     getUsuarioByEmailAndPassword
 }
