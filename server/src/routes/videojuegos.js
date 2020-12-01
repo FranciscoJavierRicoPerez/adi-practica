@@ -34,6 +34,7 @@ router.get('/:id', async function(req, res){
 
 // Añade un nuevo videojuego a la base de datos
 router.post('/', async function(req, res){
+    console.log(req);
     const { name, genre, developers, pegi, platform } = req.body;
     if(name && genre && developers && pegi && platform){
         //var id = videojuegos.length + 1;
