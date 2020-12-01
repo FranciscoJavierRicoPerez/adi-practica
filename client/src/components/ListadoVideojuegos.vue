@@ -29,6 +29,25 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-7">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Genero</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="videojuego of videojuegos">
+                                <td>{{videojuego.name}}</td>
+                                <td>{{videojuego.genre}}</td>
+                                <td>
+                                    <b-button variant="outline-danger">Eliminar</b-button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>    
@@ -70,9 +89,9 @@ export default {
                 }
             })
             .then(res => res.json())
-            .then(() => 
+            .then(data => { 
                 this.getVideojuegos()
-            )
+            })
             this.videojuego = new Videojuego();
         },
         getVideojuegos(){
@@ -82,6 +101,9 @@ export default {
                 this.videojuegos = data;
                 console.log(this.videojuegos)
             });
+        },
+        deleteVideojuego(id){
+            
         }
     }
 }
