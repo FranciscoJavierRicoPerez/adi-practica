@@ -47,4 +47,19 @@ router.post('/', async function(req, res){
     }
 });
 
+router.delete('/:id', async function(req, res){ 
+    var id = req.params.id;
+    var borrado = false;
+    if(id){
+        database_videojuegos.borrarVideojuegoEnBBDD(id);
+        borrado = true;
+        res.status(200).json({ mensaje : 'Borrado'});
+    }
+    if(!borrado){
+        res.status(500).json({
+            error: "No se ha podido borrar el videojuego"
+        })
+    }
+});
+
 module.exports = router;

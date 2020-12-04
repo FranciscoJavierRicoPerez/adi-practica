@@ -32,9 +32,19 @@ var insertarVideojuegoEnBBDD = function(videojuego_nuevo){
     return videojuego.then(function(videojuego){ return videojuego});
 }
 
+var borrarVideojuegoEnBBDD = function(id){
+    var videojuego = knex('videojuegos').delete().where('id', id);
+    return videojuego.then(
+        function(videojuego){ 
+            return videojuego 
+        }
+    );
+}
+
 module.exports = {
     getAllVideojuegosEnBBDD,
     getVideojuegoEnBBDD,
-    insertarVideojuegoEnBBDD
+    insertarVideojuegoEnBBDD,
+    borrarVideojuegoEnBBDD
 }
 

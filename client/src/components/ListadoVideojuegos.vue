@@ -42,7 +42,7 @@
                                 <td>{{videojuego.name}}</td>
                                 <td>{{videojuego.genre}}</td>
                                 <td>
-                                    <b-button variant="outline-danger">Eliminar</b-button>
+                                    <b-button variant="outline-danger" @click="deleteVideojuego(videojuego.id)">Eliminar</b-button>
                                 </td>
                             </tr>
                         </tbody>
@@ -103,7 +103,17 @@ export default {
             });
         },
         deleteVideojuego(id){
-            
+            fetch('http://localhost:9999/videojuegos/' + id, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type' : 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                this.getVideojuegos()
+            })
         }
     }
 }
