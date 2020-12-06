@@ -114,7 +114,7 @@ export default {
             .then(data => {
                 this.getVideojuegos()
             })
-        }
+        },
     }
 }
 </script>
