@@ -14,7 +14,7 @@ router.post('/login', async function(req, res){
     var usuario = await database_usuarios.getUsuarioByEmailAndPassword(email, password);
     if(usuario.length > 0){
         var token = jwt.encode({email: usuario.email}, secret);
-        res.send({ mensaje : "OK", token : token });
+        res.send({ mensaje : "OK", token : token, name : usuario[0].name, id : usuario[0].id });
     }
     else{
         res.send(401).json({error : "No se ha encontrado el usuario con esas credenciales"});
