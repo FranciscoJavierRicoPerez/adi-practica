@@ -1,0 +1,27 @@
+<template>
+  <ion-app>
+    
+    <ion-header>
+      <ion-button routerLink="/videojuegos">
+        Boton
+      </ion-button>
+    </ion-header>
+
+
+    <ion-router-outlet />
+  </ion-app>
+</template>
+
+<script>
+import { IonApp, IonRouterOutlet, IonButton } from '@ionic/vue';
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  name: 'App',
+  components: {
+    IonApp,
+    IonRouterOutlet,
+    IonButton
+  }
+});
+</script>
