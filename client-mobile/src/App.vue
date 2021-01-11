@@ -11,6 +11,9 @@
       <ion-button routerLink="/crearVideojuego">
         Añadir Videojuego
       </ion-button>
+      <ion-button routerLink="/login">
+        Iniciar Sesión
+      </ion-button>
     </ion-header>
 
 
