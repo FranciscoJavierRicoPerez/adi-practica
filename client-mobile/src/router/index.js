@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import Home from '../views/Home.vue'
 import ListadoVideojuegos from '../views/ListadoVideojuegos.vue'
+import CrearVideojuego from '../views/CrearVideojuego.vue'
 const routes = [
   {
     path: '/',
@@ -13,8 +14,13 @@ const routes = [
   },
   {
     path: '/videojuegos',
-    name: 'Videojuegos',
+    name: 'ListadoVideojuegos',
     component: ListadoVideojuegos
+  },
+  {
+    path: '/crearVideojuego',
+    name: 'CrearVideojuego',
+    component: CrearVideojuego
   },
 ]
 

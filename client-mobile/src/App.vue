@@ -2,8 +2,14 @@
   <ion-app>
     
     <ion-header>
+      <ion-button routerLink="/home">
+        Pagina Principal
+      </ion-button>
       <ion-button routerLink="/videojuegos">
-        Boton
+        Videojuegos
+      </ion-button>
+      <ion-button routerLink="/crearVideojuego">
+        Añadir Videojuego
       </ion-button>
     </ion-header>
 

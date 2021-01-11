@@ -1,4 +1,5 @@
 <template>
+    <ion-page>
     <div id="listado">
    <ion-list>
         <tr v-for="(videojuego, id) of videojuegos" v-bind:key="id">
@@ -12,11 +13,12 @@
         </tr>
    </ion-list> 
     </div>
+    </ion-page>
 </template>
 
 <script>
 
-import { IonList, IonItem, IonButton } from '@ionic/vue';
+import { IonList, IonItem, IonButton, IonPage } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -25,6 +27,7 @@ export default defineComponent({
     IonList,
     IonItem,
     IonButton,
+    IonPage
   },
     data(){
         return{
