@@ -53,7 +53,6 @@ export default defineComponent({
                 return res.json();
             })
             .then(res => {
-                // PUEDE DAR ERROR
                 localStorage.setItem('usuario.token', res.token)
                 localStorage.setItem('usuario.id', res.id)
                 localStorage.setItem('usuario.name', res.name)
