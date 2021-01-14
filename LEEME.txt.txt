@@ -1,24 +1,14 @@
-PRACTICA 3 ADI 
+PRACTICA 4 ADI 
 
 Ejecución del Servidor:
 	- En la carpeta server: nodemon src/index.js
 Ejecución del Cliente:
-	- En la carpeta client: npm run serve
+	- En la carpeta client-mobile: ionic serve
 
 Usuario preparado para hacer LOGIN
 	EMAIL: francisco@gmail.com
 	CONTRASEÑA: 1234
-
-ELEMENTOS OPCIONALES IMPLEMENTADOS:
-	- He generado la estructura del proyecto utilizando la herramienta vue-CLI
-	- He utilizado la herramienta bootstrap-vue para el diseño del front-end
-	- He usado vuex para gestionar el estado del usuario
-	- He usado para el estado del usuario
-	- He usado Vue Router para la gestion de la navegación
-
+	
 INFORMACIÓN EXTRA
-	- La indicación de que el usuario esta logueado se puede ver, aparte de en el token generado
-	en que el nombre del usuario logeado aparece en la barra de navegación. Para poder cerrar la
-	sesión hay que hacer click en el nombre del usuario logeado, y aparece un desplegable con dicha
-	opción
+	- 
 	

@@ -14,8 +14,10 @@
       </ion-header>
     
       <div id="container">
-        <strong>Ready to create an app?</strong>
-        <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+        <strong>Bienvenido a Videojuegos ADI</strong>
+        <div>
+          <ion-title v-if="currentUser">{{ currentUser.userName }}</ion-title>
+        </div>
       </div>
     </ion-content>
   </ion-page>
@@ -33,7 +35,23 @@ export default defineComponent({
     IonPage,
     IonTitle,
     IonToolbar
-  }
+  },
+  computed: {
+        currentUser() {
+            const userName = localStorage.getItem('usuario.name')
+            const userId = localStorage.getItem('usuario.id')
+            const token = localStorage.getItem('usuario.token')
+            if(userName && userId && token){
+                 return {
+                    userName: userName,
+                    userId: userId,
+                    token: token,
+                }
+            } else {
+                return null
+            }
+        },
+    },
 });
 </script>
 

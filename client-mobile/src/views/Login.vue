@@ -5,11 +5,11 @@
         <form @submit.prevent="handleLogin">
             <ion-item>
                 <ion-label position="floating">Correo Electronico</ion-label>
-                <ion-input  type="text"></ion-input>
+                <ion-input  v-model="usuario.email"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label position="floating">Contraseña</ion-label>
-                <ion-input type="text"></ion-input>
+                <ion-input v-model="usuario.password" type="password"></ion-input>
             </ion-item>
             <ion-button type="submit">Iniciar Sesión</ion-button>
         </form>
@@ -34,16 +34,33 @@ export default defineComponent({
     data(){
         return{
             usuario:{
-                name:"",
+                email:"",
                 password:""
             }
         };
     },
     methods: {
-            handleLogin() {
-                fetch('http://localhost:9999/login')
-            }
-        }
+        handleLogin() {
+            fetch('http://localhost:9999/login', {
+                method: 'POST',
+                body: JSON.stringify(this.usuario),
+                headers: {
+                    'Accept' : 'application/json',
+                    'Content-type' : 'application/json'
+                }
+            })
+            .then(res => {
+                return res.json();
+            })
+            .then(res => {
+                // PUEDE DAR ERROR
+                localStorage.setItem('usuario.token', res.token)
+                localStorage.setItem('usuario.id', res.id)
+                localStorage.setItem('usuario.name', res.name)
+                window.location.href='http://localhost:8100';
+            })
+        },
+    }
 })
 </script>
 
